@@ -1,4 +1,5 @@
-from flask import Flask, render_template,request,redirect,url_for
+from unittest import result
+from flask import Flask, render_template,request
 import pickle
 from datetime import date
 
@@ -10,8 +11,7 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/home",methods=["GET"])
 def home():
-    result = request.args.get('result',default="")
-    return render_template("home.html",title = 'Home',result = result)
+    return render_template("home.html",title = 'Home',result = "")
 
 
 @app.route("/predict",methods=["POST","GET"])
@@ -45,8 +45,10 @@ def predict():
 
         prediction = rf_random.predict([[Present_Price,Kms_Driven,Owner,Car_Age,Fuel_Type_Diesel,Fuel_Type_Petrol,Seller_Type_Individual,Transmission_Manual]])
         result = round(prediction[0],2)
-    return redirect(url_for('home',result = result))
+        return render_template("home.html",title = 'Home',result = result)
+    else:
+        return render_template("home.html",title = 'Home',result = "")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 
