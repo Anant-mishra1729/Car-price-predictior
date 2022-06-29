@@ -1,18 +1,14 @@
-from cgitb import reset
-from crypt import methods
 from flask import Flask, render_template,request,redirect,url_for
 import pickle
 from datetime import date
-import pandas as pd
 
 f = open("random_forest_regression_model.pkl",'rb')
 rf_random = pickle.load(f)
-print(type(rf_random))
 
 app = Flask(__name__)
 
 @app.route("/")
-@app.route("/home",methods=["POST","GET"])
+@app.route("/home",methods=["GET"])
 def home():
     result = request.args.get('result',default="")
     return render_template("home.html",title = 'Home',result = result)
